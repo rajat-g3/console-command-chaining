@@ -1,0 +1,14 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  App\FooBundle\:
+    resource: '../*'
+    exclude: '../{Entity,Document,Repository,EventListener,Tests,Exception,Interfaces}'
+
+  foobundle.command.hello:
+    class: App\FooBundle\Command\FooHelloCommand
+    tags:
+      - { name: console.command }

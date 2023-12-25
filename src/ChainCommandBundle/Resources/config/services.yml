@@ -1,0 +1,27 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\BarBundle\:
+    resource: '../*'
+    exclude: '../{Entity,Document,Repository,EventListener,Tests,Exception,Interfaces}'
+
+  App\ChainCommandBundle\Service\ChainCommandRegistry: 
+
+    App\ChainCommandBundle\Console\Event\Listener:
+        arguments:
+            $commandRegistry: '@App\ChainCommandBundle\Service\ChainCommandRegistry'
+
+  monolog.formatter.chain:
+    class: Monolog\Formatter\LineFormatter
+    arguments:
+      - "[%%datetime%%]: %%message%%\n"
+      - "Y-m-d H:i:s"
+
+  App\ChainCommandBundle\Console\Event\Listener:
+    tags: [kernel.event_subscriber]
+
+  logger:
+        class: Symfony\Component\HttpKernel\Log\Logger
+        public: true
